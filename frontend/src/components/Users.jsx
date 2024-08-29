@@ -4,6 +4,7 @@ import axios from "axios";
 
 const Users = ({ dataSource, setDataSource, selectedRowKeys, setSelectedRowKeys }) => {
   const [loading, setLoading] = useState(false);
+  const BASE_URL = import.meta.env.VITE_API_URL;
 
   const start = () => {
     setLoading(true);
@@ -31,7 +32,7 @@ const Users = ({ dataSource, setDataSource, selectedRowKeys, setSelectedRowKeys 
       Modal.confirm({
         title: "Are you sure you want to delete this user?",
         onOk: async () => {
-          await axios.delete(`http://localhost:4000/api/users/${id}`);
+          await axios.delete(`${BASE_URL}/api/users/${id}`);
           // Update dataSource state
           setDataSource((prevDataSource) => prevDataSource.filter((user) => user._id !== id));
           message.success("User deleted successfully");

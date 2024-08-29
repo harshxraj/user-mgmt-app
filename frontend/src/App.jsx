@@ -16,7 +16,7 @@ function App() {
   const [dataSource, setDataSource] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [exportLoading, setExportLoading] = useState(false);
-  console.log(formData);
+  const BASE_URL = import.meta.env.VITE_API_URL;
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -30,7 +30,7 @@ function App() {
     setConfirmLoading(true);
 
     try {
-      const newUser = await axios.post("http://localhost:4000/api/users", formData);
+      const newUser = await axios.post(`${BASE_URL}/api/users`, formData);
       console.log("User data submitted successfully");
       setOpen(false);
       setDataSource([...dataSource, newUser.data]);
@@ -49,7 +49,7 @@ function App() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const allUsers = await axios.get("http://localhost:4000/api/users");
+        const allUsers = await axios.get(`${BASE_URL}/api/users`);
         console.log(allUsers.data);
         setDataSource(allUsers.data);
       } catch (err) {
@@ -69,9 +69,9 @@ function App() {
     setExportLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/users/export",
+        `${BASE_URL}/api/users/export`,
         { ids: selectedRowKeys },
-        { responseType: "blob" } // Important for handling file downloads
+        { responseType: "blob" }
       );
 
       // Create a URL for the file and trigger a download
